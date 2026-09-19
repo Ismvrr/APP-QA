@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <style>
+    @page { size: letter; margin: 1.5cm; }
+    body { font-family: Helvetica, Arial, sans-serif; color: #1f2937; font-size: 10pt; }
+    .header { background: #0a3656; color: white; padding: 18px 22px; }
+    .eyebrow { color: #9bc5eb; font-size: 9pt; text-transform: uppercase; }
+    h1 { margin: 5px 0 0; font-size: 22pt; }
+    h2 { color: #0a3656; padding-bottom: 2px; margin-top: 24px; }
+    h3 { color: #205b9b; font-size: 12pt; margin: 14px 0 5px; }
+    .meta { margin-top: 12px; color: #dbeafe; }
+    .summary { padding: 2px 0 8px; }
+    .detail { padding: 4px 0 10px; margin: 0 0 10px; }
+    .text { line-height: 1.35; }
+    p { margin: 5px 0; }
+    ul { margin: 5px 0 8px 18px; padding: 0; }
+    li { margin: 3px 0; }
+    code { background: #e2e8f0; padding: 1px 3px; }
+    .footer { color: #64748b; font-size: 8pt; margin-top: 25px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="eyebrow">API_C2D · Reporte mensual de análisis IA</div>
+    <h1>{{ report.company_name }}</h1>
+    <div class="meta">Periodo: {{ "%04d-%02d"|format(report.year, report.month) }}</div>
+  </div>
+
+  {% if report.consolidation_html %}
+    <h2>Consolidación mensual</h2>
+    <div class="summary">{{ report.consolidation_html | safe }}</div>
+  {% endif %}
+
+  <h2>Análisis de conversaciones</h2>
+  {% for detail in report.details %}
+    <div class="detail">
+      <div class="text">{{ detail.html | safe }}</div>
+    </div>
+  {% else %}
+    <p>No hay resultados individuales disponibles.</p>
+  {% endfor %}
+
+  <div class="footer">Generado por API_C2D. Este reporte utiliza resultados almacenados y no ejecuta nuevas consultas a Gemini.</div>
+</body>
+</html>
